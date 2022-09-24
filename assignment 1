@@ -1,0 +1,83 @@
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node
+{
+public:
+    string member;
+    string name;
+    int age;
+    Node *next;
+    Node *prev;
+    Node(string s1, string s2, int val)
+    {
+        member = s1;
+        name = s2;
+        age = val;
+        next = NULL;
+        prev = NULL;
+    }
+};
+void inserthead(Node *&head, string member, string name, int val)
+{
+    Node *n = new Node(member, name, val);
+    n->next = head;
+    if (head != NULL)
+    {
+        head->prev = n;
+    }
+    head = n;
+}
+void insertEnd(Node *&head, string member, string name, int val)
+{
+    if (head == NULL)
+    {
+        inserthead(head, member, name, val);
+        return;
+    }
+    Node *n = new Node(member, name, val);
+    Node *temp = head;
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    temp->next = n;
+    n->prev = temp;
+}
+void display(Node *head)
+{
+    Node *temp = head;
+    while (temp != NULL)
+    {
+        cout << temp->member << " ";
+        cout << temp->name << " ";
+        cout << temp->age << " ";
+        cout << endl;
+        temp = temp->next;
+    }
+    // cout << endl;
+}
+int main()
+{
+    Node *head = NULL;
+    int n;
+    cout << "Enter the numbre of family members to be inserted into the linked list : ";
+    cin>>n;
+    string member;
+    string name;
+    int age;
+    for (int i = 0; i < n; i++)
+    {
+        cout<<"Relation : ";
+        cin >> member;
+        cout<<" Name : ";
+        cin>> name;
+        cout<<"Age : ";
+        cin>> age;
+        inserthead(head, member, name , age);
+    }
+
+    display(head); //fifo principle 
+    return 0;
+}
