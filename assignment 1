@@ -31,12 +31,17 @@ void inserthead(Node *&head, string member, string name, int val)
 }
 void insertEnd(Node *&head, string member, string name, int val)
 {
+    // if (head == NULL)
+    // {
+    //     inserthead(head, member, name, val);
+    //     return;
+    // }
+    Node *n = new Node(member, name, val);
     if (head == NULL)
     {
         inserthead(head, member, name, val);
         return;
     }
-    Node *n = new Node(member, name, val);
     Node *temp = head;
     while (temp->next != NULL)
     {
@@ -45,10 +50,12 @@ void insertEnd(Node *&head, string member, string name, int val)
     temp->next = n;
     n->prev = temp;
 }
+// insertion in a doubly linked list
+
 void display(Node *head)
 {
     Node *temp = head;
-    while (temp != NULL)
+    while (head != NULL)
     {
         cout << temp->member << " ";
         cout << temp->name << " ";
@@ -58,26 +65,98 @@ void display(Node *head)
     }
     // cout << endl;
 }
+void deleteAtHead(Node *&head)
+{
+    Node *todelete = head;
+    head = head->next;
+    head->prev = NULL;
+    delete todelete;
+}
+void deletion(Node *&head, int pos)
+{
+    if (pos == 1)
+    {
+        deleteAtHead(head);
+        return;
+    }
+    Node *temp = head;
+    int count = 1;
+    while (temp != NULL && count != pos)
+    {
+        temp = temp->next;
+        count++;
+    }
+    temp->prev->next = temp->next;
+    if (temp->next != NULL)
+    {
+        temp->next->prev = temp->prev;
+    }
+    delete temp;
+}
 int main()
 {
     Node *head = NULL;
     int n;
     cout << "Enter the numbre of family members to be inserted into the linked list : ";
-    cin>>n;
+    cin >> n;
     string member;
     string name;
     int age;
     for (int i = 0; i < n; i++)
     {
-        cout<<"Relation : ";
+        // Node *head = NULL;
+        cout << "Relation : ";
         cin >> member;
-        cout<<" Name : ";
-        cin>> name;
-        cout<<"Age : ";
-        cin>> age;
-        inserthead(head, member, name , age);
+        cout << "Name : ";
+        cin >> name;
+        cout << "Age : ";
+        cin >> age;
+        insertEnd(head, member, name, age);
     }
 
-    display(head); 
+    // display(head);
+
+    cout << "1. Add member at beginning" << endl
+         << "2. Add member at end" << endl
+         << "3. Delete a member" << endl
+         << "4. Exit" << endl;
+    int a;
+    cout << "Choose a function : " << endl;
+    cin >> a;
+    if (a == 1)
+    {
+        cout << "Relation : ";
+        cin >> member;
+        cout << "Name : ";
+        cin >> name;
+        cout << "Age : ";
+        cin >> age;
+        inserthead(head, member, name, age);
+        cout << "Inserted at head" << endl;
+    }
+    else if (a == 2)
+    {
+        cout << "Relation : ";
+        cin >> member;
+        cout << "Name : ";
+        cin >> name;
+        cout << "Age : ";
+        cin >> age;
+        insertEnd(head, member, name, age);
+        cout << "Inserted at end" << endl;
+    }
+
+    else if(a==3){
+        cout<<"Enter the position to be deleted from the list : "<<endl;
+        int b;
+        cin>>b;
+        deletion(head, b);
+    }
+    // else{
+    //     return;
+    // }
+    display(head);
+    // inserthead(head, "grandfather", "singh", 98);
+    // display(head);
     return 0;
 }
