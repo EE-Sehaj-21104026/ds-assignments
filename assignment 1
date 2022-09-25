@@ -78,6 +78,6 @@ int main()
         inserthead(head, member, name , age);
     }
 
-    display(head); //fifo principle 
+    display(head); 
     return 0;
 }
